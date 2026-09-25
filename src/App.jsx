@@ -1,49 +1,76 @@
-
 import React, { useState } from 'react';
 import ProductList from './ProductList';
-import './App.css';
+import CartItem from './CartItem';
 import AboutUs from './AboutUs';
+import './App.css';
 
 function App() {
-  
-  const [showProductList, setShowProductList] = useState(false);
+  const [page, setPage] = useState('home');
 
-  const handleGetStartedClick = () => {
-    setShowProductList(true);
+  const handleGetStarted = () => {
+    setPage('plants');
   };
 
-  const handleHomeClick = () => {
-    setShowProductList(false);
+  const handleHome = () => {
+    setPage('home');
+  };
+
+  const handlePlants = () => {
+    setPage('plants');
+  };
+
+  const handleCart = () => {
+    setPage('cart');
   };
 
   return (
     <div className="app-container">
-      <div className={`landing-page ${showProductList ? 'fade-out' : ''}`}>
-        <div className="background-image"></div>
-        <div className="content">
-         <div className="landing_content">
-         <h1>Welcome To Paradise Nursery</h1>
-          <div className="divider"></div>
-          <p>Where Green Meets Serenity</p>
-         
-          <button className="get-started-button" onClick={handleGetStartedClick}>
-            Get Started
-          </button>
-         </div>
-          <div className="aboutus_container">
-          <AboutUs/>
-          </div>
-          </div>
 
-      </div>
-      <div className={`product-list-container ${showProductList ? 'visible' : ''}`}>
-        <ProductList onHomeClick={handleHomeClick}/>
-      </div>
+      {page === 'home' && (
+        <div className="landing-page">
+          <div className="background-image"></div>
+
+          <div className="content">
+
+            <div className="landing_content">
+              <h1>Welcome To Paradise Nursery</h1>
+
+              <div className="divider"></div>
+
+              <p>Where Green Meets Serenity</p>
+
+              <button
+                className="get-started-button"
+                onClick={handleGetStarted}
+              >
+                Get Started
+              </button>
+            </div>
+
+            <div className="aboutus_container">
+              <AboutUs />
+            </div>
+
+          </div>
+        </div>
+      )}
+
+      {page === 'plants' && (
+        <ProductList
+          onHomeClick={handleHome}
+          onCartClick={handleCart}
+        />
+      )}
+
+      {page === 'cart' && (
+        <CartItem
+          onHomeClick={handleHome}
+          onContinueShopping={handlePlants}
+        />
+      )}
+
     </div>
   );
 }
 
 export default App;
-
-
-
